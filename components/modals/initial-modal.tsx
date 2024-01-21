@@ -37,7 +37,6 @@ const formSchema = z.object({
 })
 
 
-
 export const InitialModal = () => {
 
     const [isMounted, setIsMounted] = useState(false);
@@ -53,17 +52,14 @@ export const InitialModal = () => {
             imageUrl: "",
         }
     });
-
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         console.log(values);
     }
-
     const isLoading = form.formState.isSubmitting;
 
     if (!isMounted) {
         return null;
     }
-
     return (
         <Dialog open>
             <DialogContent className="bg-white text-black p-0 overflow-hidden">
