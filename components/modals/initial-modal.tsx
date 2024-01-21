@@ -1,5 +1,7 @@
 "use client";
 
+
+import axios from "axios";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -27,6 +29,8 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import FileUpload from "../file-upload";
+import { error } from "console";
+import router from "next/router";
 
 const formSchema = z.object({
     name: z.string().min(1, {
@@ -56,7 +60,15 @@ export const InitialModal = () => {
     });
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
-        console.log(values);
+        try {
+            await axios.post("/api/servers", values);
+            
+            form.reset();
+            router.refresh();
+            window.location.reload();
+        } catch (error) {
+            console.log(error)
+        }
     }
 
     const isLoading = form.formState.isSubmitting;
