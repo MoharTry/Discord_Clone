@@ -3,7 +3,7 @@
 const FileUpload = () => {
     return (
         <div>
-            File Upload Component
+            File Upload
         </div>
       );
 }
