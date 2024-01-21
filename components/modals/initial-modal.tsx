@@ -30,7 +30,6 @@ import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import FileUpload from "../file-upload";
 import { error } from "console";
-import router from "next/router";
 
 const formSchema = z.object({
     name: z.string().min(1, {
@@ -46,6 +45,8 @@ const formSchema = z.object({
 export const InitialModal = () => {
 
     const [isMounted, setIsMounted] = useState(false);
+
+    const router = useRouter();
 
     useEffect(() => {
         setIsMounted(true);
