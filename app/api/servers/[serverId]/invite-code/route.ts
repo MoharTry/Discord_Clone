@@ -1,4 +1,4 @@
-import { v4 as uuid } from "uuid";
+import { v4 as uuidv4 } from "uuid";
 import { NextResponse } from "next/server";
 
 import { currentProfile } from "@/lib/current-profile";
@@ -26,7 +26,7 @@ export async function PATCH(
                 profileId: profile.id,
             },
             data: {
-                inviteCode: uuid(),
+                inviteCode: uuidv4(),
             },
         });
 
