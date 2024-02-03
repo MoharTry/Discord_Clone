@@ -1,7 +1,7 @@
 "use client";
 
 import axios from "axios";
-import { Check, Copy, RefreshCw } from "lucide-react";
+import { Check, Code, Copy, RefreshCw } from "lucide-react";
 import { useState } from "react";
 
 import {
@@ -28,6 +28,7 @@ export const InviteModal = () => {
 
   const inviteUrl = `${origin}/invite/${server?.inviteCode}`;
 
+
   const onCopy = () => {
     navigator.clipboard.writeText(inviteUrl);
     setCopied(true);
@@ -35,7 +36,7 @@ export const InviteModal = () => {
     setTimeout(() => {
       setCopied(false);
     }, 1000);
-  };
+  }; 
 
   const onNew = async () => {
     try {
@@ -68,7 +69,7 @@ export const InviteModal = () => {
             <Input
               disabled={isLoading}
               className="bg-zinc-300/50 border-0 focus-visible:ring-0 text-black focus-visible:ring-offset-0"
-              value={inviteUrl}
+              defaultValue={inviteUrl}
             />
             <Button disabled={isLoading} onClick={onCopy} size="icon">
               {copied 

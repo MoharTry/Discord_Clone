@@ -30,6 +30,10 @@ export async function PATCH(
             },
         });
 
+        console.log(server.inviteCode);
+
+        console.log({ server });
+
         return NextResponse.json(server);
     } catch (error) {
         console.log("[SERVER_ID]", error);
