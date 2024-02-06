@@ -1,8 +1,8 @@
 "use client";
 
 import axios from "axios";
-import { Check, Code, Copy, RefreshCw } from "lucide-react";
-import { useState, useEffect } from "react";
+import { Check, Copy, RefreshCw } from "lucide-react";
+import { useState } from "react";
 
 import {
   Dialog,
@@ -16,9 +16,6 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useOrigin } from "@/hooks/use-origin";
 
-
-const serverId = 123;
-
 export const InviteModal = () => {
   const { onOpen, isOpen, onClose, type, data } = useModal();
   const origin = useOrigin();
@@ -28,28 +25,9 @@ export const InviteModal = () => {
 
   const [copied, setCopied] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [serverRecord, setServerRecord] = useState(null);
 
-  useEffect(() => {
-    const fetchServerRecord = async () => {
-      try {
-        const idToSearch = serverId;
-        const record = await prisma.server.findUnique({
-          where: {
-            id: idToSearch,
-          },
-        });
-        setServerRecord(record);
-      } catch (error) {
-        console.error('Error fetching server record:', error);
-      }
-    };
-
-    fetchServerRecord();
-  }, []); // Empty dependency array means this effect runs once on mount
-
-  const inviteUrl = `${origin}/invite/${serverRecord?.id || serverId}`;
-
+  const inviteUrl = `${origin}/invite/${server?.inviteCode}`;
+  
   const onCopy = () => {
     navigator.clipboard.writeText(inviteUrl);
     setCopied(true);
@@ -63,13 +41,14 @@ export const InviteModal = () => {
     try {
       setIsLoading(true);
       const response = await axios.patch(`/api/servers/${server?.id}/invite-code`);
+
       onOpen("invite", { server: response.data });
     } catch (error) {
       console.log(error);
     } finally {
       setIsLoading(false);
     }
-  };
+  }
 
   return (
     <Dialog open={isModalOpen} onOpenChange={onClose}>
@@ -89,11 +68,11 @@ export const InviteModal = () => {
             <Input
               disabled={isLoading}
               className="bg-zinc-300/50 border-0 focus-visible:ring-0 text-black focus-visible:ring-offset-0"
-              defaultValue={inviteUrl}
+              value={inviteUrl}
             />
             <Button disabled={isLoading} onClick={onCopy} size="icon">
-              {copied
-                ? <Check className="w-4 h-4" />
+              {copied 
+                ? <Check className="w-4 h-4" /> 
                 : <Copy className="w-4 h-4" />
               }
             </Button>
