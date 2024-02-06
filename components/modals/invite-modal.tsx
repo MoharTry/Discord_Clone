@@ -27,10 +27,11 @@ export const InviteModal = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const inviteUrl = `${origin}/invite/${server?.inviteCode}`;
+  console.log(server?.inviteCode);
+  console.log(server);
   
   const onCopy = () => {
-    navigator.clipboard.writeText(inviteUrl);
-    setCopied(true);
+    navigator.clipboard.writeText(inviteUrl);D    setCopied(true);
 
     setTimeout(() => {
       setCopied(false);

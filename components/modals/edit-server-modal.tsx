@@ -52,9 +52,9 @@ export const EditServerModal = () => {
     }
   });
     
-    useEffect{() => {
+    // useEffect{() => {
         
-    }}
+    // }}
 
   const isLoading = form.formState.isSubmitting;
 
