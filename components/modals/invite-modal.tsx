@@ -31,7 +31,8 @@ export const InviteModal = () => {
   console.log(server);
   
   const onCopy = () => {
-    navigator.clipboard.writeText(inviteUrl);D    setCopied(true);
+    navigator.clipboard.writeText(inviteUrl);
+    setCopied(true);
 
     setTimeout(() => {
       setCopied(false);
