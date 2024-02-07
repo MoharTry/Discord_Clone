@@ -23,7 +23,6 @@ const InviteCodePage = async ({
         return redirect("/");
     }
 
-    try {
         const existingServer = await db.server.findFirst({
             where: {
                 inviteCode: params.inviteCode,
@@ -36,7 +35,7 @@ const InviteCodePage = async ({
         });
 
         if (existingServer) {
-            throw new Error(`NEXT_REDIRECT;replace;/servers/${existingServer.id};307;`);
+            return redirect(`/servers/${existingServer.id}`);
         }
 
         const server = await db.server.update({
@@ -57,10 +56,7 @@ const InviteCodePage = async ({
         if (server) {
             return redirect(`/servers/${server.id}`);
         }
-    } catch (error) {
-        console.error("Error processing invite code:", error);
-    }
     return null;
-};
+}
  
 export default InviteCodePage;
