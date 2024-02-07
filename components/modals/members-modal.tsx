@@ -42,9 +42,6 @@ export const MembersModal = () => {
             </div>
           ))}
         </ScrollArea>
-          <div className="p-6">
-            Hello Members
-          </div>
       </DialogContent>
     </Dialog>
   )
