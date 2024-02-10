@@ -12,7 +12,7 @@ model Profile {
   id String @id @default(uuid())
   userId String @unique
   name String
-  imageUrl String @db.Text
+  imageUrl String 
   email String @db.Text
 
   servers Server[]
