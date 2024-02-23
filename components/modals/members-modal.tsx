@@ -12,10 +12,21 @@ import { useModal } from "@/hooks/use-modal-store";
 import { ServerWithMembersWithProfiles } from "@/types";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { UserAvatar } from "@/components/user-avatar";
+import { ShieldAlert, ShieldCheck } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+
+
+const roleIconMap = {
+  "GUEST": null,
+  "MODERATOR": <ShieldCheck className="h-4 w-4 ml-2 text-indigo-500" />,
+  "ADMIN": <ShieldAlert className="h-4 w-4 ml-2 text-rose-500" />
+}
 
 export const MembersModal = () => {
+  const router = useRouter();
   const { isOpen, onClose, type, data } = useModal();
-
+  const [loadingId, setLoadingId] = useState("");
   const isModalOpen = isOpen && type === "members";
   const { server } = data as { server: ServerWithMembersWithProfiles };
 
@@ -35,10 +46,19 @@ export const MembersModal = () => {
             <div key={member.id} className="flex items-center gap-x-2 mb-6">
               <UserAvatar src={member.profile.imageUrl} />
               <div className="flex flex-col gap-y-1">
-                <div className="text-xs font-semibold flex items-center">
+                <div className="text-xs font-bold flex items-center gap-x-1">
                   {member.profile.name}
+                  {roleIconMap[member.role]}
                 </div>
+                <p className="text-xs text-zinc-500">
+                  {member.profile.email}
+                </p>
               </div>
+              {server.profileId !== member.profileId &&
+              loadingId !== member.id && (
+                <div>
+                  Actions!
+                </div>)}
             </div>
           ))}
         </ScrollArea>

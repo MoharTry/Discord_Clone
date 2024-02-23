@@ -30,7 +30,12 @@ export const ServerSideBar = async ({
                 },
             },
             members: {
-                
+                include:{
+                    profile:true,
+                },
+                orderBy: {
+                    role:"asc",
+                }
             }
         }
     });
