@@ -11,52 +11,51 @@ interface InviteCodePageProps {
 }
 
 const InviteCodePage = async ({
-    params
+  params
 }: InviteCodePageProps) => {
-    const profile = await currentProfile();
+  const profile = await currentProfile();
 
-    if (!profile) {
-        return redirectToSignIn();
+  if (!profile) {
+    return redirectToSignIn();
+  }
+
+  if (!params.inviteCode) {
+    return redirect("/");
+  }
+
+  const existingServer = await db.server.findFirst({
+    where: {
+      inviteCode: params.inviteCode
     }
+  });
 
-    if (!params.inviteCode) {
-        return redirect("/");
+  if (!existingServer) {
+    // Server record not found, handle the error or redirect to an appropriate page
+    return redirect("/error"); // Redirect to an error page
+  }
+
+  // Server record found, proceed with updating the server
+  const updatedServer = await db.server.update({
+    where: {
+      id: existingServer.id // Use the ID of the existing server record
+    },
+    data: {
+      members: {
+        create: [
+          {
+            profileId: profile.id
+          }
+        ]
+      }
     }
+  });
 
-        const existingServer = await db.server.findFirst({
-            where: {
-                inviteCode: params.inviteCode,
-                members: {
-                    some: {
-                        profileId: profile.id
-                    },
-                },
-            },
-        });
+  if (updatedServer) {
+    return redirect(`/servers/${updatedServer.id}`);
+  }
 
-        if (existingServer) {
-            return redirect(`/servers/${existingServer.id}`);
-        }
-
-        const server = await db.server.update({
-            where: {
-                inviteCode: params.inviteCode,
-            },
-            data: {
-                members: {
-                    create: [
-                        {
-                            profileId: profile.id,
-                        },
-                    ],
-                },
-            },
-        });
-
-        if (server) {
-            return redirect(`/servers/${server.id}`);
-        }
-    return null;
+  // Handle other cases or return null
+  return null;
 }
- 
+
 export default InviteCodePage;
