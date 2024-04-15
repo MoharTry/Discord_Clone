@@ -20,6 +20,12 @@ export const ServerSearch = ({
     data
 }: ServerSearchProps) => {
     const [open, setOpen] = useState(false);
+
+    useEffect(() => { 
+        const down = (e: KeyboardEvent)
+    })
+    
+
     return (
         <>
             <button
